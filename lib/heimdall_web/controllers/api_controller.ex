@@ -3,6 +3,9 @@ defmodule HeimdallWeb.ApiController do
   import Plug.Conn
 
 
+  # UPC-A numbers should be 11 digits and the check digit
+  # todo: decide how to handle ill-sized input
+
   # this route takes one upc, and returns the upc with the check digit added
   # http://0.0.0.0:4000/api/add_check_digit/1234
   def add_check_digit(conn, params) do
