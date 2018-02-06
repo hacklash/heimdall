@@ -21,8 +21,24 @@ defmodule HeimdallWeb.ApiController do
 
   # these are private methods
   defp _calculate_check_digit(upc) do
-    #this is where your code to calculate the check digit should go
-    upc
+    digits = upc
+    |> String.to_integer()
+    |> Integer.digits()
+    |> Enum.reverse
+
+    odds_sum = digits
+    |> Enum.take_every(2)
+    |> Enum.sum()
+
+    evens_sum = digits
+    |> Enum.drop(1)
+    |> Enum.take_every(2)
+    |> Enum.sum()
+
+    check_digit = 10 - ((odds_sum * 3 + evens_sum) |> Integer.mod(10))
+    |> Integer.mod(10)
+
+    "#{upc}#{check_digit}"
   end
 
   # this is a thing to format your responses and return json to the client
